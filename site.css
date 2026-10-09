@@ -1,0 +1,261 @@
+/* Electro Posé — electro-pose.com
+   Une seule feuille de style, aucun script. Police : Archivo (SIL Open Font License). */
+
+@font-face { font-family: "Archivo"; font-style: normal; font-weight: 400; font-display: swap; src: url(assets/fonts/archivo-400.woff2) format("woff2"); }
+@font-face { font-family: "Archivo"; font-style: normal; font-weight: 500; font-display: swap; src: url(assets/fonts/archivo-500.woff2) format("woff2"); }
+@font-face { font-family: "Archivo"; font-style: normal; font-weight: 700; font-display: swap; src: url(assets/fonts/archivo-700.woff2) format("woff2"); }
+
+:root {
+  --bg: #fff;
+  --ink: #141414;
+  --muted: #6b6863;
+  --line: rgba(20, 20, 20, .16);
+  --pad: clamp(18px, 4vw, 48px);
+  --max: 1344px;
+  --ease: cubic-bezier(.16, 1, .3, 1);
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: "Archivo", "Helvetica Neue", Arial, sans-serif;
+  font-size: 1rem;
+  font-size: clamp(1rem, 1.25vw, 1.125rem);
+  line-height: 1.4;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+h1, h2, p, ul, ol, figure { margin: 0; padding: 0; }
+ul, ol { list-style: none; }
+img, svg { display: block; max-width: 100%; }
+a { color: inherit; }
+a:focus-visible { outline: 2px solid currentColor; outline-offset: 3px; }
+
+/* Grain : mêmes grains que insidemusic.com et go.insidemusic.com, mais figés (aucun script). */
+.grain { position: fixed; top: 0; right: 0; bottom: 0; left: 0; inset: 0; z-index: 100; pointer-events: none; background: url(assets/grain.png) 0 0 / 256px 256px; }
+@media (-webkit-min-device-pixel-ratio: 1.5), (min-resolution: 1.5dppx) { .grain { background-size: 128px 128px; } }
+/* Visiteurs qui demandent plus de contraste : pas de grain par-dessus le texte, gris plus foncé. */
+@media (forced-colors: active), (prefers-contrast: more) { .grain { display: none; } }
+@media (prefers-contrast: more) { :root { --muted: #4a4845; } }
+
+.wrap { width: 100%; max-width: var(--max); margin-left: auto; margin-right: auto; padding-left: var(--pad); padding-right: var(--pad); }
+.label { font-size: .8125rem; font-weight: 500; text-transform: uppercase; letter-spacing: .04em; color: var(--muted); }
+.ne { width: .78em; height: .78em; flex: none; transition: transform .45s var(--ease); }
+
+.skip { position: absolute; left: 12px; top: -60px; z-index: 200; background: var(--ink); color: #fff; padding: 10px 14px; font-size: .875rem; text-decoration: none; }
+.skip:focus { top: 12px; }
+
+/* ——— Premier écran ——— */
+.hero { min-height: 100vh; min-height: 100svh; display: flex; flex-direction: column; }
+.top { position: relative; z-index: 1; display: flex; align-items: center; justify-content: space-between; gap: 16px; padding-top: 20px; font-size: .8125rem; color: var(--muted); }
+.top a { text-decoration: none; padding: 16px 0; margin: -10px 0; }
+
+.lockup { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 28px 0; padding: clamp(28px, 6vh, 72px) 0; }
+/* Le léger décalage remet le dessin du cœur dans l'axe : l'image est plus large que lui à cause du ®. */
+.heart { width: 96px; width: clamp(72px, 9vw, 124px); height: auto; margin-bottom: 24px; margin-bottom: clamp(20px, 3.4vh, 40px); translate: 5.3% 0; }
+.lockup h1 { font-weight: 700; text-transform: uppercase; letter-spacing: -.035em; line-height: .86; font-size: 56px; font-size: clamp(52px, min(19.4vw, 30vh), 146px); translate: -.028em 0; }
+/* Chaque mot est dans un cache (pour la montée à l'arrivée) ; la marge haute laisse la place à l'accent du É. */
+.lockup h1 .l { display: block; overflow: hidden; padding: .24em .04em 0; margin-top: -.24em; }
+/* Sur deux lignes, un peu d'air pour que l'accent du É ne touche pas le R du dessus. */
+.lockup h1 .l + .l { margin-top: -.14em; }
+.lockup h1 .l > span { display: inline-block; }
+.tagline { margin-top: 20px; margin-top: clamp(16px, 2.8vh, 30px); font-size: 1.0625rem; font-size: clamp(1.0625rem, 1.7vw, 1.5rem); line-height: 1.25; }
+
+.listen { padding-bottom: 24px; padding-bottom: clamp(18px, 3vh, 34px); }
+.listen .label { margin-bottom: 10px; }
+/* Les traits entre les liens sont l'espace de 1 px de la grille, qui laisse voir le fond gris clair. */
+.doors { display: grid; gap: 1px; margin-left: calc(var(--pad) * -1); margin-right: calc(var(--pad) * -1); background: #dcdcdc; border-top: 1px solid var(--ink); border-bottom: 1px solid var(--ink); }
+.doors a {
+  display: flex; align-items: center; justify-content: space-between; gap: 16px;
+  height: 100%; min-height: 54px; padding: 12px var(--pad);
+  background: var(--bg);
+  text-decoration: none; text-transform: uppercase; font-weight: 500; letter-spacing: -.02em; line-height: 1;
+  font-size: 1.1875rem; font-size: clamp(1.1875rem, 1.9vw, 1.625rem);
+  transition: background-color .25s ease, color .25s ease;
+}
+.doors small { margin-left: .5em; font-size: .8125rem; font-weight: 400; letter-spacing: 0; text-transform: none; color: var(--muted); transition: color .25s ease; }
+/* Au doigt : la ligne s'inverse le temps de l'appui. À la souris : au survol. Au clavier : inversion + filet intérieur. */
+.doors a:active { background: var(--ink); color: #fff; }
+.doors a:active small { color: rgba(255, 255, 255, .72); }
+.doors a:focus-visible { background: var(--ink); color: #fff; outline: 2px solid currentColor; outline-offset: -8px; }
+.doors a:focus-visible small { color: rgba(255, 255, 255, .72); }
+@media (hover: hover) {
+  .top a:hover { color: var(--ink); }
+  .doors a:hover { background: var(--ink); color: #fff; }
+  .doors a:hover small { color: rgba(255, 255, 255, .72); }
+  .doors a:hover .ne, .links a:hover .ne { transform: translate(3px, -3px); }
+  .links a:hover span { background-size: 100% 1px; }
+}
+
+/* Petits téléphones : on resserre pour garder les liens d'écoute à l'écran. */
+@media (max-width: 759px) and (max-height: 660px) {
+  .lockup { padding: 12px 0; }
+  .heart { width: 64px; margin-bottom: 16px; }
+  .doors a { min-height: 48px; }
+}
+
+@media (min-width: 760px) {
+  .doors { margin-left: -18px; margin-right: -18px; grid-template-columns: repeat(2, 1fr); }
+  .doors a { min-height: 76px; padding: 18px; }
+}
+@media (min-width: 1000px) {
+  /* Le nom sur une ligne dès qu'il y a la place ; la taille suit aussi la hauteur de l'écran pour que les liens d'écoute restent visibles. */
+  /* 7.43 = largeur du nom divisée par la taille de police : le nom fait exactement la largeur de la barre d'écoute. */
+  .lockup h1 { font-size: 120px; font-size: clamp(76px, min(calc((min(100vw, var(--max)) - 2 * var(--pad)) / 7.43), 25vh), 170px); white-space: nowrap; }
+  .lockup h1 .l, .lockup h1 .l + .l { display: inline-block; vertical-align: top; margin-top: -.24em; }
+  .doors { grid-template-columns: repeat(4, 1fr); }
+  .doors a { min-height: 84px; padding: 20px 18px; }
+  .doors a > span { position: relative; }
+  .doors small { position: absolute; left: 0; top: 100%; margin: 7px 0 0; white-space: nowrap; }
+}
+
+/* Écran couché de moins de 1000 px de large : le nom sur une ligne. */
+@media (min-width: 640px) and (max-width: 999px) and (orientation: landscape) {
+  .lockup h1 { font-size: clamp(44px, min(11vw, 24vh), 146px); white-space: nowrap; }
+  .lockup h1 .l, .lockup h1 .l + .l { display: inline-block; vertical-align: top; margin-top: -.24em; }
+}
+/* Téléphone couché : tout resserrer, les quatre liens sur une rangée. */
+@media (min-width: 640px) and (max-width: 999px) and (max-height: 520px) {
+  .top { padding-top: 12px; }
+  .lockup { padding: 8px 0; }
+  .heart { width: 48px; margin-bottom: 8px; }
+  .tagline { margin-top: 8px; }
+  .listen { padding-bottom: 12px; }
+  .listen .label { margin-bottom: 6px; }
+  .doors { margin-left: 0; margin-right: 0; grid-template-columns: repeat(4, 1fr); }
+  .doors a { min-height: 46px; padding: 8px 12px; gap: 8px; font-size: clamp(13px, 2.2vw, 16px); }
+  .doors small { display: none; }
+}
+
+/* ——— Notre histoire ——— */
+.story { padding-top: 96px; padding-top: clamp(72px, 12vw, 168px); padding-bottom: 80px; padding-bottom: clamp(64px, 10vw, 144px); }
+.story h2 { font-weight: 500; text-transform: uppercase; letter-spacing: -.03em; line-height: .9; font-size: 56px; font-size: clamp(44px, 9.4vw, 136px); margin-bottom: 32px; margin-bottom: clamp(28px, 4.6vw, 64px); }
+.lead { max-width: 25em; font-size: 1.5rem; font-size: clamp(1.4375rem, 2.9vw, 2.625rem); font-weight: 500; line-height: 1.12; letter-spacing: -.02em; text-wrap: pretty; }
+.sub { max-width: 34em; margin-top: 22px; margin-top: clamp(18px, 2.4vw, 32px); font-size: 1.0625rem; font-size: clamp(1.0625rem, 1.5vw, 1.375rem); line-height: 1.35; text-wrap: pretty; }
+
+/* La vidéo : le cadre passe au-dessus du grain, pour ne pas grainer l'image pendant la lecture. */
+.video { margin: 44px 0 0; margin-top: clamp(40px, 6vw, 88px); }
+.video .frame { position: relative; z-index: 101; padding-top: 56.25%; background: var(--ink); }
+.video iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0; }
+.video figcaption { display: flex; justify-content: space-between; gap: 16px; margin-top: 12px; font-size: .8125rem; color: var(--muted); }
+.video figcaption a { padding: 12px 0; margin: -12px 0; text-underline-offset: 3px; }
+
+.thread { display: grid; gap: 28px; margin-top: 64px; margin-top: clamp(52px, 8vw, 116px); }
+.thread li { border-top: 1px solid var(--ink); padding: 16px 0 0; }
+.thread .y { display: block; font-weight: 700; text-transform: uppercase; letter-spacing: -.03em; line-height: .95; font-size: 40px; font-size: clamp(34px, 4.6vw, 64px); }
+.thread p { max-width: 21em; margin-top: 10px; font-size: 1rem; font-size: clamp(1rem, 1.3vw, 1.1875rem); line-height: 1.35; color: var(--muted); text-wrap: balance; }
+@media (min-width: 760px) {
+  .thread { grid-template-columns: repeat(3, 1fr); gap: 24px; }
+}
+
+/* Fin de section : un lien du même style que les liens d'écoute du premier écran. */
+.doors.one { grid-template-columns: 1fr; margin-top: 56px; margin-top: clamp(52px, 7vw, 96px); }
+
+/* ——— Pied de page ——— */
+footer { background: var(--ink); color: #fff; }
+.foot { display: grid; gap: 44px; padding-top: 64px; padding-top: clamp(52px, 7vw, 104px); padding-bottom: 44px; padding-bottom: clamp(36px, 5vw, 60px); }
+.heart-w { width: 54px; height: auto; margin-bottom: 26px; filter: brightness(0) invert(1); }
+.claim { max-width: 13.5em; font-size: 28px; font-size: clamp(26px, 3.6vw, 52px); font-weight: 500; text-transform: uppercase; letter-spacing: -.03em; line-height: .98; text-wrap: balance; }
+.links { display: grid; gap: 2px; align-content: end; }
+.links a { display: inline-flex; align-items: center; gap: .55em; padding: 10px 0; text-decoration: none; font-size: 1rem; font-size: clamp(1rem, 1.3vw, 1.1875rem); }
+.links a span { background: linear-gradient(currentColor, currentColor) 0 100% / 0 1px no-repeat; transition: background-size .5s var(--ease); padding-bottom: 2px; }
+.links a:focus-visible span { background-size: 100% 1px; }
+@media (min-width: 760px) {
+  .foot { grid-template-columns: 1fr auto; align-items: end; gap: 64px; }
+}
+
+/* ——— Page légale ——— */
+.doc { padding-top: 48px; padding-top: clamp(40px, 7vw, 96px); padding-bottom: 80px; padding-bottom: clamp(64px, 9vw, 120px); }
+.doc .back { display: inline-flex; align-items: center; gap: 12px; text-decoration: none; font-weight: 700; text-transform: uppercase; letter-spacing: -.02em; font-size: 1.1875rem; line-height: 1; padding: 10px 0; margin: -10px 0; }
+.doc .back img { width: 34px; height: auto; }
+.doc h1 { margin: 48px 0 32px; margin: clamp(40px, 7vw, 88px) 0 clamp(28px, 4vw, 48px); font-weight: 500; text-transform: uppercase; letter-spacing: -.03em; line-height: 1; font-size: 40px; font-size: clamp(32px, 8vw, 104px); }
+.doc .jump { margin-top: 14px; }
+.doc section { max-width: 44em; padding-top: 26px; margin-top: 30px; border-top: 1px solid var(--line); }
+.doc h2 { font-size: .8125rem; font-weight: 500; text-transform: uppercase; letter-spacing: .04em; color: var(--muted); margin-bottom: 12px; }
+.doc p + p { margin-top: 10px; }
+.doc a { text-underline-offset: 3px; }
+.doc .fr { margin-top: 80px; margin-top: clamp(64px, 9vw, 112px); }
+
+/* ——— Arrivée en douceur (CSS seul, coupée si le visiteur préfère moins d'animations) ——— */
+@keyframes rise { from { transform: translateY(108%); } to { transform: none; } }
+@keyframes fade { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+@media (prefers-reduced-motion: no-preference) {
+  .lockup h1 .l > span { animation: rise 1s var(--ease) .05s both; }
+  .lockup h1 .l + .l > span { animation-delay: .13s; }
+  .tagline { animation: fade .9s var(--ease) .3s both; }
+  .listen { animation: fade .9s var(--ease) .4s both; }
+}
+@media (prefers-reduced-motion: reduce) {
+  * { transition: none !important; }
+}
+
+/* ════════ Mouvements (CSS seul, aucun script) ════════
+   Tout ce bloc est un supplément : sans lui, ou sur un navigateur qui ne le comprend pas, la page s'affiche comme avant.
+   Tout est coupé si le visiteur a demandé « moins d'animations ». */
+
+::selection { background: var(--ink); color: #fff; }
+footer ::selection { background: #fff; color: var(--ink); }
+
+/* Bandeau du pied : une ligne géante, fixe par défaut. */
+.ticker { overflow: hidden; padding: 28px 0; padding: clamp(22px, 3.2vw, 44px) 0; border-bottom: 1px solid rgba(255, 255, 255, .16); }
+.ticker .track { display: flex; align-items: center; width: max-content; white-space: nowrap; font-size: 56px; font-size: clamp(44px, 9vw, 128px); font-weight: 500; text-transform: uppercase; letter-spacing: -.03em; line-height: 1; }
+.ticker .track > * { flex: none; margin-right: .42em; }
+.ticker i { width: .6em; height: .5em; background: currentColor; -webkit-mask: url(assets/heart-mark.png) center / contain no-repeat; mask: url(assets/heart-mark.png) center / contain no-repeat; }
+
+/* Le titre « Our story » est dans un cache, pour pouvoir monter depuis le bas. */
+.story h2 .m { display: block; overflow: hidden; padding-top: .12em; margin-top: -.12em; }
+.story h2 .m > span { display: inline-block; }
+
+@media (prefers-reduced-motion: no-preference) {
+  html { scroll-behavior: smooth; }
+
+  /* Fondu entre l'accueil et la page légale. */
+  @view-transition { navigation: auto; }
+  ::view-transition-old(root), ::view-transition-new(root) { animation-duration: .4s; }
+
+  /* Grain vivant : le calque, plus grand que l'écran, change de place 12 fois par seconde (comme sur insidemusic.com, sans script). */
+  .grain { top: -128px; right: -128px; bottom: -128px; left: -128px; inset: -128px; will-change: transform; animation: grain .66s steps(1, end) infinite; }
+
+  /* Le cœur se dessine le long de ses traits, de bas en haut. */
+  .hero .heart {
+    -webkit-mask: linear-gradient(45deg, #000 46%, transparent 54%) 100% 0 / 320% 320% no-repeat;
+    mask: linear-gradient(45deg, #000 46%, transparent 54%) 100% 0 / 320% 320% no-repeat;
+    animation: draw 1.4s var(--ease) .1s both;
+  }
+}
+@keyframes grain {
+  0% { transform: translate(0, 0); }
+  12.5% { transform: translate(-37px, 61px); }
+  25% { transform: translate(53px, -29px); }
+  37.5% { transform: translate(-83px, -71px); }
+  50% { transform: translate(71px, 97px); }
+  62.5% { transform: translate(-19px, -103px); }
+  75% { transform: translate(101px, 13px); }
+  87.5% { transform: translate(-59px, 43px); }
+}
+@keyframes draw { from { -webkit-mask-position: 100% 0; mask-position: 100% 0; } to { -webkit-mask-position: 0 100%; mask-position: 0 100%; } }
+
+/* Apparitions liées au défilement : chaque bloc arrive en douceur quand il entre dans l'écran, et suit le doigt. */
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .lockup { animation: recede linear both; animation-timeline: scroll(root block); animation-range: 0px 100vh; }
+    .story h2 .m > span { animation: rise linear both; animation-timeline: view(); animation-range: entry 0% cover 22%; }
+    /* Les plages se terminent tôt (18 à 24 % de la traversée) : même tout en bas de la page, sur un très grand écran, chaque bloc finit d'apparaître. Le pied de page, lui, ne bouge pas. */
+    .lead, .sub, .video, .thread li { animation: arrive linear both; animation-timeline: view(); animation-range: entry 0% cover 18%; }
+    .thread li:nth-child(2) { animation-range: entry 10% cover 21%; }
+    .thread li:nth-child(3) { animation-range: entry 20% cover 24%; }
+    .doors.one { animation: arrive linear both; animation-timeline: view(); animation-range: entry 0% cover 14%; }
+    /* Le filet de chaque étape se trace de gauche à droite. */
+    .thread li { border-top-color: transparent; position: relative; }
+    .thread li::before { content: ""; position: absolute; top: -1px; left: 0; right: 0; height: 1px; background: var(--ink); transform-origin: 0 50%; animation: trace linear both; animation-timeline: view(); animation-range: entry 0% cover 24%; }
+    /* Le bandeau glisse vers la gauche pendant qu'il traverse l'écran. */
+    .ticker .track { animation: drift linear both; animation-timeline: view(); animation-range: entry 0% exit 100%; }
+  }
+}
+@keyframes recede { to { opacity: 0; transform: translateY(16vh) scale(.95); } }
+@keyframes arrive { from { opacity: 0; transform: translateY(32px); } to { opacity: 1; transform: none; } }
+@keyframes trace { from { transform: scaleX(0); } to { transform: none; } }
+@keyframes drift { from { transform: translateX(-2%); } to { transform: translateX(-30%); } }
