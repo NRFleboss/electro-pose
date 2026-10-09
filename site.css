@@ -205,7 +205,10 @@ footer ::selection { background: #fff; color: var(--ink); }
 .ticker { overflow: hidden; padding: 28px 0; padding: clamp(22px, 3.2vw, 44px) 0; border-bottom: 1px solid rgba(255, 255, 255, .16); }
 .ticker .track { display: flex; align-items: center; width: max-content; white-space: nowrap; font-size: 56px; font-size: clamp(44px, 9vw, 128px); font-weight: 500; text-transform: uppercase; letter-spacing: -.03em; line-height: 1; }
 .ticker .track > * { flex: none; margin-right: .42em; }
-.ticker i { width: .6em; height: .5em; background: currentColor; -webkit-mask: url(assets/heart-mark.png) center / contain no-repeat; mask: url(assets/heart-mark.png) center / contain no-repeat; }
+.ticker i { width: .6em; height: .5em; }
+@supports ((mask: url(a.png) center / contain no-repeat) or (-webkit-mask: url(a.png) center / contain no-repeat)) {
+  .ticker i { background: currentColor; -webkit-mask: url(assets/heart-mark.png) center / contain no-repeat; mask: url(assets/heart-mark.png) center / contain no-repeat; }
+}
 
 /* Le titre « Our story » est dans un cache, pour pouvoir monter depuis le bas. */
 /* « clip » coupe comme « hidden » mais ne crée pas de zone de défilement : l'animation liée au défilement suit bien la page. */
@@ -219,8 +222,6 @@ footer ::selection { background: #fff; color: var(--ink); }
   @view-transition { navigation: auto; }
   ::view-transition-old(root), ::view-transition-new(root) { animation-duration: .4s; }
 
-  /* Grain vivant : le calque, plus grand que l'écran, change de place 12 fois par seconde (comme sur insidemusic.com, sans script). */
-  .grain { top: -128px; right: -128px; bottom: -128px; left: -128px; inset: -128px; will-change: transform; animation: grain .66s steps(1, end) infinite; }
 
   /* La bannière du pied défile en boucle, sans à-coup ; elle s'arrête sous la souris. */
   .ticker .track { will-change: transform; animation: marquee 36s linear infinite; }
@@ -228,10 +229,15 @@ footer ::selection { background: #fff; color: var(--ink); }
 
   /* Le cœur se dessine le long de ses traits, de bas en haut. */
   .hero .heart {
-    -webkit-mask: linear-gradient(45deg, #000 49%, transparent 51%) 100% 0 / 210% 210% no-repeat;
-    mask: linear-gradient(45deg, #000 49%, transparent 51%) 100% 0 / 210% 210% no-repeat;
+    -webkit-mask: linear-gradient(45deg, #000 49%, transparent 51%) 0 100% / 210% 210% no-repeat;
+    mask: linear-gradient(45deg, #000 49%, transparent 51%) 0 100% / 210% 210% no-repeat;
     animation: draw 1s linear both;
   }
+}
+/* Grain vivant : le calque, plus grand que l'écran, change de place 12 fois par seconde (comme sur insidemusic.com, sans script).
+   Réservé aux écrans à souris : sur téléphone et tablette le grain reste figé, pour ne pas tenir l'appareil éveillé. */
+@media screen and (prefers-reduced-motion: no-preference) and (hover: hover) and (pointer: fine) {
+  .grain { top: -128px; right: -128px; bottom: -128px; left: -128px; inset: -128px; animation: grain .66s steps(1, end) infinite; }
 }
 @keyframes grain {
   0% { transform: translate(0, 0); }
@@ -243,18 +249,21 @@ footer ::selection { background: #fff; color: var(--ink); }
   75% { transform: translate(101px, 13px); }
   87.5% { transform: translate(-59px, 43px); }
 }
-@keyframes draw { from { -webkit-mask-position: 100% 0; mask-position: 100% 0; } to { -webkit-mask-position: 0 100%; mask-position: 0 100%; } }
+@keyframes draw { from { -webkit-mask-position: 100% 0; mask-position: 100% 0; } }
 
 /* Apparitions liées au défilement : chaque bloc arrive en douceur quand il entre dans l'écran, et suit le doigt. */
-@supports (animation-timeline: view()) {
-  @media screen and (prefers-reduced-motion: no-preference) {
-    .lockup { animation: recede linear both; animation-timeline: scroll(root block); animation-range: 0px 100vh; }
+@supports (animation-timeline: view()) and (animation-range: entry 0% cover 18%) {
+  /* Au-delà de 2000 px de haut (zoom arrière, écran géant en portrait), la page est trop courte pour finir les apparitions : elle reste fixe. */
+  @media screen and (prefers-reduced-motion: no-preference) and (max-height: 2000px) {
+    .hero { view-timeline: --hero block; }
+    .lockup { animation: recede linear both; animation-timeline: --hero; animation-range: exit 0% exit 100%; }
     .story h2 .m > span { animation: rise cubic-bezier(.22, .61, .36, 1) both; animation-timeline: view(); animation-range: entry 0% cover 22%; }
     /* Les plages se terminent tôt (18 à 24 % de la traversée) : même tout en bas de la page, sur un très grand écran, chaque bloc finit d'apparaître. Le pied de page, lui, ne bouge pas. */
     .lead, .sub, .thread li { animation: arrive cubic-bezier(.22, .61, .36, 1) both; animation-timeline: view(); animation-range: entry 0% cover 18%; }
-    .video { animation: lift cubic-bezier(.22, .61, .36, 1) both; animation-timeline: view(); animation-range: entry 0% cover 18%; }
-    .thread li:nth-child(2) { animation-range: entry 10% cover 21%; }
-    .thread li:nth-child(3) { animation-range: entry 20% cover 24%; }
+    @media (min-width: 760px) {
+      .thread li:nth-child(2) { animation-range: entry 10% cover 21%; }
+      .thread li:nth-child(3) { animation-range: entry 20% cover 24%; }
+    }
     .doors.one { animation: arrive cubic-bezier(.22, .61, .36, 1) both; animation-timeline: view(); animation-range: entry 0% cover 14%; }
     /* Le filet de chaque étape se trace de gauche à droite. */
     .thread li { border-top-color: transparent; position: relative; }
@@ -262,9 +271,8 @@ footer ::selection { background: #fff; color: var(--ink); }
   }
 }
 @keyframes recede { 35% { opacity: 1; } to { opacity: 0; transform: translateY(16vh); } }
-@keyframes arrive { from { opacity: 0; transform: translateY(32px); } to { opacity: 1; transform: none; } }
+@keyframes arrive { from { opacity: 0; transform: translateY(32px); } 30% { opacity: 1; } to { opacity: 1; transform: none; } }
 @keyframes trace { from { transform: scaleX(0); } to { transform: none; } }
-@keyframes lift { from { transform: translateY(32px); } to { transform: none; } }
 @keyframes marquee { to { transform: translateX(-50%); } }
 
 /* Sur papier : pas de grain (il recouvrirait la page d'un voile blanc) ni de cadre vidéo. */
