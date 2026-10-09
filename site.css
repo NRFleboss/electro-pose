@@ -263,3 +263,8 @@ footer ::selection { background: #fff; color: var(--ink); }
 @keyframes arrive { from { opacity: 0; transform: translateY(32px); } to { opacity: 1; transform: none; } }
 @keyframes trace { from { transform: scaleX(0); } to { transform: none; } }
 @keyframes marquee { to { transform: translateX(-50%); } }
+
+/* Sur papier : pas de grain (il recouvrirait la page d'un voile blanc) ni de cadre vidéo. */
+@media print {
+  .grain, .video .frame, .ticker { display: none; }
+}
